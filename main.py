@@ -1,22 +1,25 @@
 import asyncio
 
-from aiogram import Bot, Dispatcher
-from aiogram.filters import CommandStart
-from aiogram.types import Message
+from aiogram.utils import executor
 
-Token = 'TOKEN'
-dp = Dispatcher()
-bot = Bot(token=Token)
+API_TOKEN = 'ваш токен'
 
+bot = Bot(token=API_TOKEN)
+dp = Dispatcher(bot)
 
-@dp.message(CommandStart())
-async def start(message: Message):
-    await message.answer(f'Ку, выбери что хочешь узнать! {message.from_user.full_name}')
+@dp.message_handler(commands=['start'])
+async def send_welcome(message: types.Message):
 
+    keyboard = InlineKeyboardMarkup(row_width=1)
+    button = InlineKeyboardButton(text="Сборка бойцов", callback_data="button_pressed")
+    keyboard.add(button)
 
-async def main():
-    await bot.delete_webhook(drop_pending_updates=True)
-    await dp.start_polling(bot)
+    await message.answer("Привет! Выбери что хочешь узнать:", reply_markup=keyboard)
 
-if __name__ == "__main__":
-    asyncio.run(main())
+@dp.callback_query_handler(lambda c: c.data == "button_pressed")
+async def process_callback_button(callback_query: types.CallbackQuery):
+    await bot.answer_callback_query(callback_query.id)
+    await bot.send_message(callback_query.from_user.id, "Кнопка нажата")
+
+if __name__ == '__main__':
+    executor.start_polling(dp, skip_updates=True)
