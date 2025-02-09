@@ -106,6 +106,7 @@ KENJT = r"D:\tgbotik\imag\kenji.png"
 # Путь к локальному изображению карт
 
 
+
 # Проверка существования файла
 if not os.path.exists(SHELLY):
     logging.error(f"Файл {SHELLY} не найден!")
@@ -127,6 +128,149 @@ back_keyboard = ReplyKeyboardMarkup(
     resize_keyboard=True
 )
 
+# Создаем клавиатуру для выбора редкости бойца
+rarity_buttons = [
+    KeyboardButton(text="Начальный"),
+    KeyboardButton(text="Редкий"),
+    KeyboardButton(text="Сверхредкий"),
+    KeyboardButton(text="Эпический"),
+    KeyboardButton(text="Мифический"),
+    KeyboardButton(text="Легендарный")
+]
+rarity_keyboard = ReplyKeyboardMarkup(
+    keyboard=[rarity_buttons[i:i + 2] for i in range(0, len(rarity_buttons), 2)],
+    resize_keyboard=True
+)
+
+# Создаем клавиатуру с кнопкой "Шелли" для обычной редкости
+nachalny_button= KeyboardButton(text="Шелли")
+nachalny_keyboard = ReplyKeyboardMarkup(
+    keyboard=[[nachalny_button, back_button]],  # Кнопка "Шелли" и "Назад"
+    resize_keyboard=True
+)
+
+rare_buttons = [
+    KeyboardButton(text="нита"),
+    KeyboardButton(text="кольт"),
+    KeyboardButton(text="булл"),
+    KeyboardButton(text="брок"),
+    KeyboardButton(text="эль примо"),
+    KeyboardButton(text="барли"),
+    KeyboardButton(text="поко"),
+    KeyboardButton(text="роза"),
+]
+rare_keyboard = ReplyKeyboardMarkup(
+    keyboard=[rare_buttons[i:i + 2] for i in range(0, len(rare_buttons), 2)],
+    resize_keyboard=True
+)
+
+sverhrare_buttons = [
+    KeyboardButton(text="джесси"),
+    KeyboardButton(text="динамайк"),
+    KeyboardButton(text="тик"),
+    KeyboardButton(text="8-бит"),
+    KeyboardButton(text="рико"),
+    KeyboardButton(text="дэррил"),
+    KeyboardButton(text="пенни"),
+    KeyboardButton(text="карл"),
+    KeyboardButton(text="джеки"),
+    KeyboardButton(text="гас")
+]
+sverhrare_keyboard = ReplyKeyboardMarkup(
+    keyboard=[sverhrare_buttons[i:i + 2] for i in range(0, len(sverhrare_buttons), 2)],
+    resize_keyboard=True
+)
+
+epic_buttons = [
+    KeyboardButton(text="бо"),
+    KeyboardButton(text="эмз"),
+    KeyboardButton(text="сту"),
+    KeyboardButton(text="пайпер"),
+    KeyboardButton(text="пэм"),
+    KeyboardButton(text="фрэнк"),
+    KeyboardButton(text="биби"),
+    KeyboardButton(text="беа"),
+    KeyboardButton(text="нани"),
+    KeyboardButton(text="эдгар"),
+    KeyboardButton(text="грифф"),
+    KeyboardButton(text="гром"),
+    KeyboardButton(text="бонни"),
+    KeyboardButton(text="гэйл"),
+    KeyboardButton(text="колетт"),
+    KeyboardButton(text="белль"),
+    KeyboardButton(text="эш"),
+    KeyboardButton(text="лола"),
+    KeyboardButton(text="сэм"),
+    KeyboardButton(text="мэнди"),
+    KeyboardButton(text="мэйси"),
+    KeyboardButton(text="хэнк"),
+    KeyboardButton(text="перл"),
+    KeyboardButton(text="ларри и лори"),
+    KeyboardButton(text="анджело"),
+    KeyboardButton(text="берри"),
+    KeyboardButton(text="шейд"),
+    KeyboardButton(text="мипл")
+]
+epic_keyboard = ReplyKeyboardMarkup(
+    keyboard=[epic_buttons[i:i + 4] for i in range(0, len(epic_buttons), 4)],
+    resize_keyboard=True
+)
+
+mithic_buttons = [
+    KeyboardButton(text="мортис"),
+    KeyboardButton(text="тара"),
+    KeyboardButton(text="джин"),
+    KeyboardButton(text="макс"),
+    KeyboardButton(text="пистер п."),
+    KeyboardButton(text="спраут"),
+    KeyboardButton(text="байрон"),
+    KeyboardButton(text="скуик"),
+    KeyboardButton(text="лу"),
+    KeyboardButton(text="гавс"),
+    KeyboardButton(text="базз"),
+    KeyboardButton(text="фэнг"),
+    KeyboardButton(text="ева"),
+    KeyboardButton(text="джанет"),
+    KeyboardButton(text="отис"),
+    KeyboardButton(text="бастер"),
+    KeyboardButton(text="грей"),
+    KeyboardButton(text="r-t"),
+    KeyboardButton(text="виллоу"),
+    KeyboardButton(text="даг"),
+    KeyboardButton(text="чак"),
+    KeyboardButton(text="чарли"),
+    KeyboardButton(text="мико"),
+    KeyboardButton(text="мелоди"),
+    KeyboardButton(text="лили"),
+    KeyboardButton(text="клэнси"),
+    KeyboardButton(text="мо"),
+    KeyboardButton(text="джуджу"),
+    KeyboardButton(text="олли")
+]
+mithic_keyboard = ReplyKeyboardMarkup(
+    keyboard=[mithic_buttons[i:i + 4] for i in range(0, len(mithic_buttons), 4)],
+    resize_keyboard=True
+)
+
+legendary_buttons = [
+    KeyboardButton(text="спайк"),
+    KeyboardButton(text="ворон"),
+    KeyboardButton(text="леон"),
+    KeyboardButton(text="сэнди"),
+    KeyboardButton(text="амбер"),
+    KeyboardButton(text="мэг"),
+    KeyboardButton(text="вольт"),
+    KeyboardButton(text="честер"),
+    KeyboardButton(text="корделиус"),
+    KeyboardButton(text="кит"),
+    KeyboardButton(text="драко"),
+    KeyboardButton(text="кэндзи")
+]
+legendary_keyboard = ReplyKeyboardMarkup(
+    keyboard=[legendary_buttons[i:i + 2] for i in range(0, len(legendary_buttons), 2)],
+    resize_keyboard=True
+)
+
 # Обработчик команды /start
 @dp.message(Command("start"))
 async def send_welcome(message: types.Message):
@@ -136,9 +280,28 @@ async def send_welcome(message: types.Message):
 @dp.message(F.text.in_(["Бойцы", "Карты"]))
 async def handle_buttons(message: types.Message):
     if message.text == "Бойцы":
-        await message.answer("Вы выбрали Бойцы! Введите имя бойца (например, Шелли):", reply_markup=back_keyboard)
+        await message.answer("Выберите редкость бойца:", reply_markup=rarity_keyboard)
     elif message.text == "Карты":
         await message.answer("Вы выбрали Карты!", reply_markup=back_keyboard)
+
+# Обработчик выбора редкости бойца
+@dp.message(F.text.in_(["Начальный", "Редкий", "Сверхредкий", "Эпический", "Мифический", "Легендарный"]))
+async def handle_rarity(message: types.Message):
+    rarity = message.text
+    if rarity == "Начальный":
+        await message.answer("Вы выбрали редкость: Начальный. Выберите бойца:", reply_markup=nachalny_keyboard)
+    elif rarity == "Редкий":
+        await message.answer("Вы выбрали редкость: Редкий. Выберите бойца:", reply_markup=rare_keyboard)
+    elif rarity == "Сверхредкий":
+        await message.answer("Вы выбрали редкость: Сверхредкий. Выберите бойца:", reply_markup=sverhrare_keyboard)
+    elif rarity == "Эпический":
+        await message.answer("Вы выбрали редкость: Эпический. Выберите бойца:", reply_markup=epic_keyboard)
+    elif rarity == "Мифический":
+        await message.answer("Вы выбрали редкость: Мифический. Выберите бойца:", reply_markup=mithic_keyboard)
+    elif rarity == "Легендарный":
+        await message.answer("Вы выбрали редкость: Легендарный. Выберите бойца:", reply_markup=legendary_keyboard)
+    else:
+        await message.answer(f"Вы выбрали редкость: {rarity}. Введите имя бойца:", reply_markup=back_keyboard)
 
 # Обработчик текста после нажатия "Бойцы"
 @dp.message(F.text)
@@ -150,7 +313,7 @@ async def handle_text_after_fighters(message: types.Message):
         try:
             await message.answer_photo(
                 photo=FSInputFile(SHELLY),  
-                caption="Шелли — это отличный боец с мощным дробовиком!",
+                caption="Шелли имеет средний запас здоровья, высокую скорость передвижения, среднюю скорость перезарядки, среднюю дальность атаки и наносит большой урон на близком расстоянии. Её основная атака - выстрел дробью, имеющей некоторый разброс, что делает её менее эффективной на большой дистанции. Её Супер аналогичен обычной атаке, но содержит больше снарядов, наносит больше урона, разрушает препятствия и может отталкивать задетых противников. Шелли очень проста в освоении, что поможет начинающим игрокам. Благодаря первой Звёздной силе её Супер замедляет врагов на 2 секунды, а с помощью второй Звёздной силы она исцеляет здоровье каждые 15 секунд, если его уровень опускается ниже 40%. Её гаджеты позволяют ей делать рывки или увеличивать дальность и уменьшать разброс основной атаки.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
@@ -160,183 +323,183 @@ async def handle_text_after_fighters(message: types.Message):
         try:
             await message.answer_photo(
                 photo=FSInputFile(NITA),  
-                caption="нита",
+                caption="Нита имеет средний запас здоровья, высокую скорость перезарядки, среднюю дальность атаки, нормальную скорость передвижения и наносит средний урон. Её основная атака - волна, пробивающая противников, что позволяет наносить урон сразу нескольким целям. Её Супер призывает большого медведя, который атакует противников. Благодаря первой Звёздной силе медведь восстанавливает здоровье Ните, нанося урон, тем временем как Нита — медведю, а с помощью второй Звёздной силы его скорость атаки увеличивается на 60%. При использовании первого гаджета медведь оглушает врагов поблизости с 1 секундой задержкой, а второй гаджет создает временный щит для него.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "кольт":
         try:
             await message.answer_photo(
                 photo=FSInputFile(COLT),  
-                caption="",
+                caption="Кольт имеет низкий запас здоровья, нормальную скорость передвижения и перезарядки, большую дальность атаки и наносит большой урон. Его основная атака - это очередь из 6-ти пуль, летящих по прямой. Его Супер аналогичен обычной атаке, но содержит 12 пуль, прошивает врагов насквозь и разрушает препятствия. При игре за Кольта необходимо умение прицеливаться, что делает его несколько сложным в освоении. Первая Звёздная сила увеличивает его скорость передвижения, а вторая - дальность атаки и скорость снарядов. Его гаджеты могут восстанавливать патроны или изменять основную атаку с очереди на одну мощную пулю.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "булл":
         try:
             await message.answer_photo(
                 photo=FSInputFile(BULL),  
-                caption="",
+                caption="У Булла такой же тип атаки, как и у Шелли и Дэррила, но с более короткой дальностью. Он обладает высокой скоростью передвижения, большим количеством здоровья и высоким уроном на ближней дистанции. Его Супер позволит догнать слабого врага или, наоборот, уйти от опасного противника. Гаджет «Сочный стейк» сразу восстанавливает Буллу немного здоровья. Гаджет «Страх и топот» прерывает Cупер Булла, и при активации враги рядом с местом использования замедляются. Звёздная сила «Берсерк» ускоряет перезарядку Булла, если у него осталось менее 60% здоровья. Звёздная сила «Крепкий парень» даёт ему щит, когда его здоровье падает до 40%.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "брок":
         try:
             await message.answer_photo(
                 photo=FSInputFile(BROCK),  
-                caption="",
+                caption="Брок имеет очень низкое здоровье, нормальную скорость и низкую перезарядку. Его дальнобойные ракеты наносят довольно высокий урон в небольшой области, но перезаряжаются достаточно медленно. Его Супер — град из 9-ти ракет, которые наносят гигантский урон по области. Его первый Гаджет «Реактивные кроссовки» позволяет сделать прыжок ввысь, что сделает Брока неуязвимым к урону на долю секунды и поможет перепрыгнуть через препятствия. Другой гаджет преобразует его следующую атаку в большую взрывную ракету. Его Звёздная сила «Больше ракет» позволяет ему выпускать больше ракет при использовании Супера, а «Ракета №4» увеличивает количество боеприпасов с трёх до четырёх.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "эль примо":
         try:
             await message.answer_photo(
                 photo=FSInputFile(ELPRIMO),  
-                caption="",
+                caption="Имеет высокую скорость передвижения, очень высокую скорость перезарядки и высокий показатель здоровья, который позволяет выдерживать ему большинство вражеских атак. Эль Примо сражается кулаками, нанося 4 удара нa короткой дистанции. Его Супер позволяет ему совершить прыжок нa большое расстояние, разрушив препятствия в небольшом радиусе и обрушившись нa противников, нанеся им низкий урон, но отталкивая. Используя гаджеты, Эль Примо может подхватить ближайшего врага своими могучими руками и швырнуть его через плечо со всей силы или запустить в ближайшего противника метеорит. Его Звёздная сила «Эль Фуэго» поджигает землю и врагов, попавших в зону действия Супера Эль Примо, a Звёздная сила «Скорость метеорита» увеличит скорость передвижения после Супера.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "барли":
         try:
             await message.answer_photo(
                 photo=FSInputFile(BARLEY),  
-                caption="",
+                caption="Барли имеет нормальную скорость передвижения, очень низкий уровень здоровья, но обладает атакой, с помощью которой он бросает бутылки с зажигательной смесью, покрывающие землю лужами, наносящими средний урон врагам, стоящим на них, со временем. При помощи Супера Барли покрывает огромную площадь огнём. Его первый гаджет — липкая лужа сиропа, наступив в которую, враги замедляются. Второй гаджет может излечить союзников лечебной жидкостью. Звёздная сила «Лекарство» позволяет восстанавливать здоровье, с помощью основной атаки, не прекращая её саму. Звёздная сила «Опасно для здоровья» увеличивает урон от атаки на 200 очков.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "поко":
         try:
             await message.answer_photo(
                 photo=FSInputFile(POCO),  
-                caption="",
+                caption="Поко имеет нормальную скорость передвижения и широкий диапазон атаки. Несмотря на это, он имеет и свои слабости: среднее количество единиц здоровья и низкий урон. Его Супер очень полезен и может восстанавливать здоровье себе и своим союзникам, попавшим в зону действия, которая намного больше, чем у основной атаки и проходит сквозь препятствия. Его гаджет «Камертон» восстанавливает 740 очков здоровья ежесекундно ему и союзникам Поко на небольшом радиусе в течение 5 секунд. Гаджет «Катарсис» снимает все негативные эффекты с союзников и даёт иммунитет всем попавшим под радиус гаджета союзникам на 4 секунды. Звёздная сила «Да-Капо!» восстанавливает 962 очков здоровья союзникам, попавших под зону действия основной атаки Поко. А Звёздная сила «Сольный номер» даёт Суперу Поко урон в размере 1520 единиц.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "роза":
         try:
             await message.answer_photo(
                 photo=FSInputFile(ROSA),  
-                caption="",
+                caption="Роза имеет высокую скорость передвижения, высокое здоровье, средне-высокий урон и высокую скорость перезарядки. Атакой Роза наносит три удара кулаками на небольшую дистанцию. Её Супер — щит, поглощающий 70% нанесенного ей урона. С помощью гаджета «Фитолампа» Роза может посадить кусты вокруг себя. Гаджет «Ядовитые заросли» замедляет противников, находящихся в кустах. Также они получают небольшой урон, что помогает Розе их обнаружить. При помощи Звёздной силы «Отдых на природе» она может восстанавливать здоровье, когда находится в кустах. Звёздная сила «Ежовые рукавицы» увеличивает урон от атаки Розы, пока работает её Супер.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "джесси":
         try:
             await message.answer_photo(
                 photo=FSInputFile(JESSIE),  
-                caption="",
+                caption="Она обладает нормальной скоростью передвижения, средне-низким здоровьем, средним уроном и средней скоростью перезарядки. Своим Супером она ставит турель со средним здоровьем, низким уроном и очень быстрой атакой. Атаки Джесси средней дальности имеют большой потенциал урона, потому что они могут отскакивать от противника и поражать двух других ближайших врагов, что позволит быстро накопить Супер (если удачно попасть 3 раза по врагам, то можно тут же его зарядить). С первым Гаджетом Турель Джесси порождает ударную волну, замедляющую всех врагов, находящихся в зоне её действия, а со вторым гаджетом она значительно ускоряет свою перезарядку. С помощью первой Звёздной силы Джесси может исцелять здоровье турели с помощью атаки, а со второй Звёздной силой атаки турели Джесси отскакивают от врагов.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "динамайк":
         try:
             await message.answer_photo(
                 photo=FSInputFile(DYNAMIKE),  
-                caption="",
+                caption="Динамайк имеет высокую скорость передвижения, средне-низкое количество здоровья и высокий урон. Его Супер может моментально убить бойцов с низким запасом здоровья. Первая Звёздные силы Динамайка позволяет ему перепрыгивать препятствия с помощью динамита, а вторая — увеличивает урон от Супера на 1000 очков. При использовании первого гаджета, Динaмайк вращается по оси, разбрасывая вокруг себя динамитные шашки, и при этом ещё и ускоряясь. Со вторым гаджетом Динaмайк оглушает врагов на 1,5 секунды от основной атаки",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "тик":
         try:
             await message.answer_photo(
                 photo=FSInputFile(TICK),  
-                caption="",
+                caption="У него нормальная скорость передвижения, один из двух самых низких запасов здоровья в игре, но очень высокий урон и высокая дальность. Своей основной атакой Тик выстреливает кассетной бомбой, которая распадается на три маленькие мины. Его Супер — бросок головы-камикадзе, которая, найдя ближайшего врага, взрывается, нанося высокий урон. Первый гаджет даёт Тику защиту и отталкивает врагов, нанося урон, а второй— увеличение количества бомб в одной атаке с 3 до 6. Звёздная сила «Как по маслу» позволяет Тику восстанавливать здоровье намного раньше других бойцов, а Звёздная сила «Автома–Тика» навсегда ускоряет перезарядку его основной атаки.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "8-бит":
         try:
             await message.answer_photo(
                 photo=FSInputFile(VOSEMBIT),  
-                caption="",
+                caption="Обладает средне-высоким количеством здоровья, очень низкой скоростью передвижения (является на данный момент самым медленным бойцом в игре) и высоким уроном. Он использует лазерный пистолет, из которого стреляет лучами по врагам на очень большую дистанцию. Его Супер — усилитель, который увеличивает урон ему и его союзникам в зоне действия. Звёздные силы либо увеличат область и мощность его Супера, либо ускорят скорость передвижения 8-БИТа около усилителя урона. Первый гаджет 8-БИТа — телепорт к своему усилителю, а второй гаджет увеличивает кучность его атаки с 6 до 18 лазерных лучей.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "рико":
         try:
             await message.answer_photo(
                 photo=FSInputFile(RICO),  
-                caption="",
+                caption="Рико имеет нормальную скорость передвижения, низкий уровень здоровья, и умеренный урон. Его атака — пули, которые могут отскакивать от стен и пролетать на 1.67 клеток больше. Эта способность может позволить Рико наносить урон врагам в укрытиях при правильном прицеливании. Его Супер — увеличенные пули, которые могут прошивать врагов. С Звёздной силой «Суперотскок» пули при отскоке изменяют свою внешность и наносят больше урона. А со Звёздной силой «Отступление машин» Рико при 40% здоровья и меньше двигается быстрее. Гаджет «Шаромёт» запускает по две пули в 8 сторон от Рико, которые могут прошивать врагов, как и Супер, рикошетя. С гаджетом «Надувной замок», Рико может исцеляться с помощью пуль, основной атаки, когда они отскакивают.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "дэррил":
         try:
             await message.answer_photo(
                 photo=FSInputFile(DARRIL),  
-                caption="",
+                caption="Имеет высокую скорость передвижения и большое количество здоровья. Атакуя, он стреляет дважды из пары двустволок, наносящих высокий урон вблизи. Чем ближе цель, тем больше урон. Используя Супер, Дэррил может позволить себе быстро прокатиться в выбранную сторону. Первый гаджет Дэррила — выстрелы шквальным огнём во все стороны, которые при попадании ещё быстрее заряжают ему Супер, а второй гаджет позволяет ему замедлить врагов в определённой от себя области. Звёздная сила «Стальные обручи» даёт Дэррилу щит на время использования Супера, что сделает наносимый ему урон минимальным, а «Перезарядка на ходу» ускорит время перезарядки в два раза на 5 секунд.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "пенни":
         try:
             await message.answer_photo(
                 photo=FSInputFile(PENNY),  
-                caption="",
+                caption="Она имеет нормальную скорость передвижения, переменный урон, но низкую скорость перезарядки, большую дальность атаки и средний уровень здоровья. Пенни атакует мешочком фальшивого золота, который может поразить врагов за первоначальной целью с двойным и иногда даже тройным уроном. Её Супер устанавливает мортиру, имеющую среднее здоровье, высокий урон и низкую скорострельность. Она может стрелять по врагам в кустах и оставляет после выброса бомбы небольшой огненный след. Первым гаджетом Пенни ставит бочку, которая защищает её от чужих снарядов, а также позволяет Пенни при попадании по ней взрывать собственные мешочки. Вторым гаджетом пушка Пенни стреляет по всем противникам в радиусе действия. С первой звёздной силой количество золота из мешочков Пенни, а также их дальность увеличиваются. Со второй звёздной силой пушка Пенни будет отбрасывать и наносить урон ближайшим противникам при установке.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "карл":
         try:
             await message.answer_photo(
                 photo=FSInputFile(CARL),  
-                caption="",
+                caption="Карл имеет нормальную скорость передвижения, средне-высокое количество здоровья и средний урон. Он кидает свою кирку, которая при столкновении с препятствием или пролетев максимальную дистанцию, возвращается обратно к нему. Его Супер позволяет ему вращаться и двигаться намного быстрее, нанося урон всем, кто попал под его удар. Во время использования гаджета «Клапан сброса» следующая атака Карла оставляет за собой огненный след. Если враги наступят на этот след, они получат эффект горения наносящий 400 очков урона в течении 3 секунд. Другой гаджет переносит его вместе с одной атакой. С его Звёздной силой «Усиленный бросок» кирка Карла летит на 12% быстрее. Звёздная сила «Защитный пируэт» даёт Карлу щит во время использования Супера, что уменьшает наносимый противниками урон на 35%.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "джекки":
         try:
             await message.answer_photo(
                 photo=FSInputFile(JACKY),  
-                caption="",
+                caption="Джеки имеет высокую скорость передвижения, высокий показатель здоровья и высокий показатель урона. Атакой, у которой нормальная перезарядка, она с силой стучит своим буром по земле, и из-за чего её радиус имеет форму окружности. Её Супер — бур, с помощью которого она притягивает к себе врагов. Во время использования первого гаджета Джеки становится быстрее на некоторое время, а вторым она может строить стены. С первой Звёздной силой она возвращает часть урона врагу, а со второй Звёздной силой уменьшает наносимый ей урон в течение всего боя.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "гас":
         try:
             await message.answer_photo(
                 photo=FSInputFile(GUS),  
-                caption="",
+                caption="Гас имеет нормальную скорость передвижения, средне-низкое количество здоровья и средний урон. Основной атакой он запускает воздушный шар, каждое попадание которого заполняет шкалу. При полном заполнении следующая атака вызовет призрака, исцеляющего часть здоровья союзникам. Шкала заполняется за три попадания. Своим Супером Гас пускает другой воздушный шар по имени Спуки, который даёт ему или союзнику щит (зависит от того, нажали вы автоатаку или прицелились в другого бойца), работающий как гаджет Эдгара «Крепкий орешек», только с бóльшим количеством здоровья. Его первый гаджет взрывает всех призраков Гаса, а второй забирает часть здоровья Гаса, а взамен полностью заполняет призрачную шкалу. С первой звёздной силой призраки Гаса восстанавливают в 2 раза больше здоровья, а вторая даёт усиление урона при использовании Супера.",
                 reply_markup=back_keyboard
             )
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "бо":
         try:
             await message.answer_photo(
                 photo=FSInputFile(BO),  
@@ -346,7 +509,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "эмз":
         try:
             await message.answer_photo(
                 photo=FSInputFile(EMZ),  
@@ -356,7 +519,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "сту":
         try:
             await message.answer_photo(
                 photo=FSInputFile(STU),  
@@ -366,7 +529,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "пайпер":
         try:
             await message.answer_photo(
                 photo=FSInputFile(PIPER),  
@@ -376,7 +539,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "пэм":
         try:
             await message.answer_photo(
                 photo=FSInputFile(PAM),  
@@ -386,7 +549,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "френк":
         try:
             await message.answer_photo(
                 photo=FSInputFile(FRANK),  
@@ -396,7 +559,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "биби":
         try:
             await message.answer_photo(
                 photo=FSInputFile(BIBI),  
@@ -406,7 +569,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "беа":
         try:
             await message.answer_photo(
                 photo=FSInputFile(BEA),  
@@ -416,7 +579,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "нани":
         try:
             await message.answer_photo(
                 photo=FSInputFile(NANI),  
@@ -426,7 +589,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "эдгар":
         try:
             await message.answer_photo(
                 photo=FSInputFile(EDGAR),  
@@ -436,7 +599,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "грифф":
         try:
             await message.answer_photo(
                 photo=FSInputFile(GRIFF),  
@@ -446,7 +609,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "гром":
         try:
             await message.answer_photo(
                 photo=FSInputFile(GROM),  
@@ -456,7 +619,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "бонни":
         try:
             await message.answer_photo(
                 photo=FSInputFile(BONNIE),  
@@ -466,7 +629,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "гэйл":
         try:
             await message.answer_photo(
                 photo=FSInputFile(GALE),  
@@ -476,7 +639,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "колетт":
         try:
             await message.answer_photo(
                 photo=FSInputFile(COLETTE),  
@@ -486,7 +649,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "белль":
         try:
             await message.answer_photo(
                 photo=FSInputFile(BELLE),  
@@ -496,7 +659,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "эш":
         try:
             await message.answer_photo(
                 photo=FSInputFile(ASH),  
@@ -506,7 +669,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "лола":
         try:
             await message.answer_photo(
                 photo=FSInputFile(LOLA),  
@@ -516,7 +679,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "сэм":
         try:
             await message.answer_photo(
                 photo=FSInputFile(SAM),  
@@ -526,7 +689,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "мэнди":
         try:
             await message.answer_photo(
                 photo=FSInputFile(MANDY),  
@@ -536,7 +699,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "мэйси":
         try:
             await message.answer_photo(
                 photo=FSInputFile(MAISE),  
@@ -546,7 +709,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "хэнк":
         try:
             await message.answer_photo(
                 photo=FSInputFile(HANK),  
@@ -556,7 +719,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "перл":
         try:
             await message.answer_photo(
                 photo=FSInputFile(PEARL),  
@@ -566,7 +729,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "ларри и лори":
         try:
             await message.answer_photo(
                 photo=FSInputFile(LARRYLAWRIE),  
@@ -576,7 +739,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "анджела":
         try:
             await message.answer_photo(
                 photo=FSInputFile(ANGELO),  
@@ -586,7 +749,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "берри":
         try:
             await message.answer_photo(
                 photo=FSInputFile(BERRY),  
@@ -596,7 +759,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "шейд":
         try:
             await message.answer_photo(
                 photo=FSInputFile(SHADE),  
@@ -606,7 +769,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "мипл":
         try:
             await message.answer_photo(
                 photo=FSInputFile(MEEPLE),  
@@ -616,7 +779,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "мортис":
         try:
             await message.answer_photo(
                 photo=FSInputFile(MORTIS),  
@@ -626,7 +789,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "тара":
         try:
             await message.answer_photo(
                 photo=FSInputFile(TARA),  
@@ -636,7 +799,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "джин":
         try:
             await message.answer_photo(
                 photo=FSInputFile(GENE),  
@@ -646,7 +809,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "макс":
         try:
             await message.answer_photo(
                 photo=FSInputFile(MAX),  
@@ -656,7 +819,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "мистер п.":
         try:
             await message.answer_photo(
                 photo=FSInputFile(MRP),  
@@ -666,7 +829,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "спраут":
         try:
             await message.answer_photo(
                 photo=FSInputFile(SPROUT),  
@@ -676,7 +839,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "байрон":
         try:
             await message.answer_photo(
                 photo=FSInputFile(BYRON),  
@@ -686,7 +849,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "скуик":
         try:
             await message.answer_photo(
                 photo=FSInputFile(SQUEAK),  
@@ -696,7 +859,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "лу":
         try:
             await message.answer_photo(
                 photo=FSInputFile(LOU),  
@@ -706,7 +869,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "гавс":
         try:
             await message.answer_photo(
                 photo=FSInputFile(RUFFS),  
@@ -716,7 +879,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "базз":
         try:
             await message.answer_photo(
                 photo=FSInputFile(BUZZ),  
@@ -726,7 +889,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "фэнг":
         try:
             await message.answer_photo(
                 photo=FSInputFile(FANG),  
@@ -736,7 +899,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "ева":
         try:
             await message.answer_photo(
                 photo=FSInputFile(EVE),  
@@ -746,7 +909,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "джанет":
         try:
             await message.answer_photo(
                 photo=FSInputFile(JANET),  
@@ -756,7 +919,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "отис":
         try:
             await message.answer_photo(
                 photo=FSInputFile(OTIS),  
@@ -766,7 +929,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "бастер":
         try:
             await message.answer_photo(
                 photo=FSInputFile(BUSTER),  
@@ -776,7 +939,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "грей":
         try:
             await message.answer_photo(
                 photo=FSInputFile(GRAY),  
@@ -786,7 +949,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "r-t":
         try:
             await message.answer_photo(
                 photo=FSInputFile(RT),  
@@ -796,7 +959,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "виллоу":
         try:
             await message.answer_photo(
                 photo=FSInputFile(WILLOW),  
@@ -806,7 +969,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "даг":
         try:
             await message.answer_photo(
                 photo=FSInputFile(DOUG),  
@@ -816,7 +979,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "чак":
         try:
             await message.answer_photo(
                 photo=FSInputFile(CHUCK),  
@@ -826,7 +989,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "чарли":
         try:
             await message.answer_photo(
                 photo=FSInputFile(CHARLIE),  
@@ -836,7 +999,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "мико":
         try:
             await message.answer_photo(
                 photo=FSInputFile(MIKO),  
@@ -846,7 +1009,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "мелоди":
         try:
             await message.answer_photo(
                 photo=FSInputFile(MELODIE),  
@@ -856,7 +1019,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "лили":
         try:
             await message.answer_photo(
                 photo=FSInputFile(LILY),  
@@ -866,7 +1029,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "клэнси":
         try:
             await message.answer_photo(
                 photo=FSInputFile(CLANCY),  
@@ -876,7 +1039,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "мо":
         try:
             await message.answer_photo(
                 photo=FSInputFile(MOE),  
@@ -886,7 +1049,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "джуджу":
         try:
             await message.answer_photo(
                 photo=FSInputFile(JUJU),  
@@ -896,7 +1059,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "олли":
         try:
             await message.answer_photo(
                 photo=FSInputFile(OLLIE),  
@@ -906,7 +1069,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "спайк":
         try:
             await message.answer_photo(
                 photo=FSInputFile(SPIKE),  
@@ -916,7 +1079,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "ворон":
         try:
             await message.answer_photo(
                 photo=FSInputFile(CROW),  
@@ -926,7 +1089,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "леон":
         try:
             await message.answer_photo(
                 photo=FSInputFile(LEON),  
@@ -936,7 +1099,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "сэнди":
         try:
             await message.answer_photo(
                 photo=FSInputFile(SANDY),  
@@ -946,7 +1109,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "амбер":
         try:
             await message.answer_photo(
                 photo=FSInputFile(AMBER),  
@@ -956,7 +1119,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "мэг":
         try:
             await message.answer_photo(
                 photo=FSInputFile(MEG),  
@@ -966,7 +1129,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "вольт":
         try:
             await message.answer_photo(
                 photo=FSInputFile(SURGE),  
@@ -976,7 +1139,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "честер":
         try:
             await message.answer_photo(
                 photo=FSInputFile(CHESTER),  
@@ -986,7 +1149,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "корделиус":
         try:
             await message.answer_photo(
                 photo=FSInputFile(CORDELIUS),  
@@ -996,7 +1159,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "кит":
         try:
             await message.answer_photo(
                 photo=FSInputFile(KIT),  
@@ -1006,7 +1169,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "драко":
         try:
             await message.answer_photo(
                 photo=FSInputFile(DRACO),  
@@ -1016,7 +1179,7 @@ async def handle_text_after_fighters(message: types.Message):
         except Exception as e:
             logging.error(f"Ошибка при отправке изображения: {e}")
             await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
-    elif user_input == "":
+    elif user_input == "кэндзи":
         try:
             await message.answer_photo(
                 photo=FSInputFile(KENJT),  
