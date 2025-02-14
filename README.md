@@ -14,5 +14,5 @@
 
 1. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com/ваш-username/brawl-stars-bot.git
-   cd brawl-stars-bot
+   git clone https://github.com/Absolutny/Tgbot.git
+   cd Tgbot
