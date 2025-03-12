@@ -90,6 +90,7 @@ CLANCY = r"заменить на путь к папке с картинками\
 MOE = r"заменить на путь к папке с картинками\moe.png"
 JUJU = r"заменить на путь к папке с картинками\juju.png"
 OLLIE = r"заменить на путь к папке с картинками\ollie.png"
+FINX = r"заменить на путь к папке с картинками\finx.png"
 SPIKE = r"заменить на путь к папке с картинками\spike.png"
 CROW = r"заменить на путь к папке с картинками\crow.png"
 LEON = r"заменить на путь к папке с картинками\leon.png"
@@ -167,7 +168,7 @@ sverhrare_buttons = [
     KeyboardButton(text="назад")
 ]
 sverhrare_keyboard = ReplyKeyboardMarkup(
-    keyboard=[sverhrare_buttons[i:i + 3] for i in range(0, len(sverhrare_buttons), 3)],
+    keyboard=[sverhrare_buttons[i:i + 3] for i in range(0, len(sverhrare_buttons), 2)],
     resize_keyboard=True
 )
 
@@ -237,6 +238,7 @@ mithic_buttons = [
     KeyboardButton(text="мо"),
     KeyboardButton(text="джуджу"),
     KeyboardButton(text="олли"),
+    KeyboardButton(text="финкс"),
     KeyboardButton(text="назад")
 ]
 mithic_keyboard = ReplyKeyboardMarkup(
@@ -1046,6 +1048,16 @@ async def handle_text_after_fighters(message: types.Message):
         try:
             await message.answer_photo(
                 photo=FSInputFile(OLLIE),  
+                caption="",
+                reply_markup=back_keyboard
+            )
+        except Exception as e:
+            logging.error(f"Ошибка при отправке изображения: {e}")
+            await message.answer("Извините, не удалось загрузить изображение.", reply_markup=back_keyboard)
+    elif user_input == "финкс":
+        try:
+            await message.answer_photo(
+                photo=FSInputFile(FINX),  
                 caption="",
                 reply_markup=back_keyboard
             )
